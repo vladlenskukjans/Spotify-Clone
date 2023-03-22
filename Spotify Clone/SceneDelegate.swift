@@ -18,8 +18,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
-        window?.makeKeyAndVisible()
+        if AuthManager.shared.isSignedIn {
+            window?.rootViewController = UINavigationController(rootViewController: UITabBarViewController())
+        } else {
+            window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
+        }
+        print(AuthManager.shared.signInURL?.absoluteString)
+        
+           window?.makeKeyAndVisible()
+        
+       
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
